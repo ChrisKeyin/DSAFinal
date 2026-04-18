@@ -1,5 +1,6 @@
 package com.chrisking.warehouse_inventory_system.service;
 
+import com.chrisking.warehouse_inventory_system.bst.OrderBST;
 import com.chrisking.warehouse_inventory_system.dto.OrderRequest;
 import com.chrisking.warehouse_inventory_system.entity.Customer;
 import com.chrisking.warehouse_inventory_system.entity.Order;
@@ -19,6 +20,9 @@ public class OrderService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private OrderBST orderBST;
+
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
@@ -37,5 +41,29 @@ public class OrderService {
         order.setCustomer(customer);
 
         return orderRepository.save(order);
+    }
+
+    public String addOrdersToPriorityTree() {
+        List<Order> orders = orderRepository.findAll();
+
+        orderBST.clear();
+
+        for (Order order : orders) {
+            orderBST.insert(order);
+        }
+
+        return "Orders added to priority tree successfully.";
+    }
+
+    public List<Order> getOrdersInPriorityOrder() {
+        return orderBST.inorderTraversal();
+    }
+
+    public Order getHighestPriorityOrder() {
+        return orderBST.findHighest();
+    }
+
+    public Order getLowestPriorityOrder() {
+        return orderBST.findLowest();
     }
 }

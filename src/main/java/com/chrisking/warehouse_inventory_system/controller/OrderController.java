@@ -30,4 +30,36 @@ public class OrderController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping("/add-to-priority-tree")
+    public ResponseEntity<String> addOrdersToPriorityTree() {
+        return ResponseEntity.ok(orderService.addOrdersToPriorityTree());
+    }
+
+    @GetMapping("/priority/inorder")
+    public ResponseEntity<List<Order>> getOrdersInPriorityOrder() {
+        return ResponseEntity.ok(orderService.getOrdersInPriorityOrder());
+    }
+
+    @GetMapping("/priority/highest")
+    public ResponseEntity<?> getHighestPriorityOrder() {
+        Order order = orderService.getHighestPriorityOrder();
+
+        if (order == null) {
+            return ResponseEntity.badRequest().body("Priority tree is empty.");
+        }
+
+        return ResponseEntity.ok(order);
+    }
+
+    @GetMapping("/priority/lowest")
+    public ResponseEntity<?> getLowestPriorityOrder() {
+        Order order = orderService.getLowestPriorityOrder();
+
+        if (order == null) {
+            return ResponseEntity.badRequest().body("Priority tree is empty.");
+        }
+
+        return ResponseEntity.ok(order);
+    }
 }
