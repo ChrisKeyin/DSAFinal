@@ -1,8 +1,10 @@
 package com.chrisking.warehouse_inventory_system.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table(name = "customers")
@@ -17,6 +19,7 @@ public class Customer {
     private String email;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Order> orders = new ArrayList<>();
 
     public Customer() {
