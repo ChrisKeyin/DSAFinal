@@ -3,6 +3,7 @@ package com.chrisking.warehouse_inventory_system.entity;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "products")
@@ -19,6 +20,7 @@ public class Product {
     private int stock;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public Product() {
